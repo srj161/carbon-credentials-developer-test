@@ -31,6 +31,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'carbon_credentials',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
