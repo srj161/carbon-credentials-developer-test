@@ -8,6 +8,16 @@ from ..constants import ChartTypes
 
 
 def build_chart(chart_type, meter):
+    """
+    Main entry point for the chart_builder module.
+
+    args:
+        chart_type(int): a ChartType representing the desired chart.
+        meter(Meter): a meter model used in the generation of charts.
+
+    returns:
+        Chart: an object of a subclass of Chart for this chart_type
+    """
     if chart_type == ChartTypes.METER_TIME:
         return MeterTimeChart(meter)
     if chart_type == ChartTypes.METER_INSTALLATION:
@@ -15,6 +25,10 @@ def build_chart(chart_type, meter):
 
 
 class MeterTimeChart(Chart):
+    """
+    A line type chart that displays the meter consumption over time for a
+    given meter.
+    """
     chart_type = 'line'
     legend = Legend(display=False)
     title = Title(display=True, text='Meter Consumption Over Time')
@@ -45,16 +59,22 @@ class MeterTimeChart(Chart):
 
 
 class MeterInstallationChart(Chart):
+    """
+    A doughnut chart that displays the number of each type of meter we have data
+    for.
+    """
     chart_type = 'doughnut'
     title = Title(display=True, text='Meter Installation by Fuel Type')
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
+        # Creates a queryset returning 'fuel__count' and 'fuel__name' fields
         self.meters_qs = models.Meter.objects.values('fuel__name').annotate(Count('fuel'))
 
     def get_datasets(self, **kwargs):
         return [{
             'data': [m['fuel__count'] for m in self.meters_qs],
+            # Colors the segments of the chart
             'backgroundColor': [
                 rgba(225, 0, 0),
                 rgba(0, 225, 0),

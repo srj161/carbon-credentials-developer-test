@@ -7,6 +7,19 @@ from ..constants import UploadFileTypes
 
 
 def upload(f, file_type):
+    """
+    Main entry point for the csv_uploader module.
+    Parses the file and creates the corresponding entries in the database.
+    There is some basic validation. If a row is invalid or there is a key clash, the
+    row is skipped.
+
+    Given more time, I would have implemented better validation and better user feedback
+    of errors.
+
+    args:
+        f(file): csv file to upload
+        file_type(int): an UploadFileType to denote the type of file
+    """
     csv_file_dict = csv.DictReader(codecs.iterdecode(f, 'utf-8-sig'))
     csv_uploader = CSV_UPLOADERS[file_type]
     csv_uploader(csv_file_dict)

@@ -6,6 +6,7 @@ from .constants import ChartTypes, UploadFileTypes
 
 
 class UploadForm(forms.Form):
+    """ A form for uploading the data CSV files """
     FILE_TYPES = [
         (UploadFileTypes.BUILDING_DATA, 'Building Data'),
         (UploadFileTypes.HALF_HOURLY_DATA, 'Half Hourly Data'),
@@ -27,6 +28,10 @@ class UploadForm(forms.Form):
 
 
 class VisualiseForm(forms.Form):
+    """
+    A form used on the visualisation page.
+    The choices for meter_id are populated dynamically on init.
+    """
     CHART_TYPES = {
         (ChartTypes.METER_TIME, 'Meter Consumption over time'),
         (ChartTypes.METER_INSTALLATION, 'Meter Installation by Fuel Type')

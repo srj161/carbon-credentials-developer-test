@@ -9,10 +9,12 @@ from . import forms, models
 
 @require_GET
 def index(request):
+    """ Basic entry page for the site """
     return render(request, 'carbon_credentials/index.html')
 
 
 class UploadView(View):
+    """ View to upload data from csvs. Accepts GET and POST requests. """
     form = forms.UploadForm
     template = 'carbon_credentials/upload.html'
 
@@ -29,11 +31,16 @@ class UploadView(View):
 
 
 class BuildingList(ListView):
+    """ View for the list of all Buildings """
     model = models.Building
     context_object_name = 'buildings'
 
 
 class MeterList(ListView):
+    """
+    View for the list of meters for a given building.
+    Returns 404 if the Building cannot be found.
+    """
     model = models.Meter
     context_object_name = 'meters'
 
@@ -48,6 +55,10 @@ class MeterList(ListView):
 
 
 class MeterReadingsList(ListView):
+    """
+    View the list of meter readings for a given meter.
+    Returns 404 if the Meter cannot be found.
+    """
     model = models.MeterReadings
     context_object_name = 'meter_readings'
 
@@ -63,7 +74,14 @@ class MeterReadingsList(ListView):
 
 @require_GET
 def visualise(request):
+    """
+    Visualisation view renders a page from the VisualiseForm.
+    If the form contains a chart_type, the view renders the chart.
+    Only accepts GET request.
+    """
     if 'chart_type' not in request.GET:
+        # If there is no chart_type, we can assume this request has not been posted by the form
+        # so don't pass in any GET data.
         form = forms.VisualiseForm()
     else:
         form = forms.VisualiseForm(request.GET)
