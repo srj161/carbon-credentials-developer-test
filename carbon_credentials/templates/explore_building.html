@@ -1,0 +1,17 @@
+{% block content %}
+    <h1>Meters for {{ building.name }}</h1>
+    <table>
+        <tr>
+            <th>Id</th>
+            <th>Fuel</th>
+            <th>Unit</th>
+        </tr>
+        {% for meter in meters %}
+            <tr>
+                <td><a href="{% url 'explore_meter' meter.id %}">{{ meter.id }}</a></td>
+                <td>{{ meter.fuel.name }}</td>
+                <td>{{ meter.fuel.unit }}</td>
+            </tr>
+        {% endfor %}
+    </table>
+{% endblock %}

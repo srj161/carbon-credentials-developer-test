@@ -1,0 +1,15 @@
+{% block content %}
+    <h1>Buildings</h1>
+    <table>
+        <tr>
+            <th>Id</th>
+            <th>Name</th>
+        </tr>
+    {% for building in buildings %}
+        <tr>
+            <td><a href="{% url 'explore_building' building.id %}">{{ building.id }}</a></td>
+            <td>{{ building.name }}</td>
+        </tr>
+    {% endfor %}
+    </table>
+{% endblock %}
