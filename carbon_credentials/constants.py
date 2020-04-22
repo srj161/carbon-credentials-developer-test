@@ -1,5 +1,6 @@
 class ChartTypes:
     METER_TIME = 0
+    METER_INSTALLATION = 1
 
 
 class UploadFileTypes:
