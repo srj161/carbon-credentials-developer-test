@@ -1,4 +1,5 @@
 *.pyc
 .*
+carbon_credentials/migrations
 db.sqlite3
 !.gitignore
