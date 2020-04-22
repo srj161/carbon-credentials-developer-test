@@ -1,0 +1,17 @@
+{% extends 'carbon_credentials/index.html' %}
+{% load jchart %}
+{% block header %}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.bundle.min.js"></script>
+{% endblock %}
+
+{% block content %}
+    <form method="get">
+        {% csrf_token %}
+        <h1>Upload</h1>
+        <table>
+            {{ form.as_table }}
+        </table>
+        <input type="submit" value='Visualise'/>
+    </form>
+    {{ chart.as_html }}
+{% endblock %}

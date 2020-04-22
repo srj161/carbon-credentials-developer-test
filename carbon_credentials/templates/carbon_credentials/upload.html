@@ -1,6 +1,8 @@
+{% extends 'carbon_credentials/index.html' %}
 {% block content %}
   <form method="post" enctype="multipart/form-data">
     {% csrf_token %}
+    <h1>Upload</h1>
     <table>
         {{ form.as_table }}
     </table>

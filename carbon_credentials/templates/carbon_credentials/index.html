@@ -1,0 +1,20 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Carbon Credentials</title>
+        <link rel="stylesheet" type="text/css" href="{% static 'carbon_credentials/menu.css' %}">
+        {% block header %}{% endblock %}
+    </head>
+    <body>
+        <div class='sidebar'>
+            <div class='menuitem'><a href="{% url 'upload' %}">Upload Data</a></div>
+            <div class='menuitem'><a href="{% url 'explore' %}">Explore Data</a></div>
+            <div class='menuitem'><a href="{% url 'visualise' %}">Visualise Data</a></div>
+        </div>
+        <div class='content'>
+            {% block content %}{% endblock %}
+        </div>
+    </body>
+</html>
+

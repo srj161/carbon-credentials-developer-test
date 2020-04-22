@@ -9,12 +9,12 @@ from . import forms, models
 
 @require_GET
 def index(request):
-    return render(request, 'index.html')
+    return render(request, 'carbon_credentials/index.html')
 
 
 class UploadView(View):
     form = forms.UploadForm
-    template = 'upload.html'
+    template = 'carbon_credentials/upload.html'
 
     def get(self, request, *args, **kwargs):
         return render(request, self.template, {'form': self.form()})
@@ -63,5 +63,15 @@ class MeterReadingsList(ListView):
 
 @require_GET
 def visualise(request):
-    chart = chart_builder.LineChart()
-    return render(request, 'visualise.html', {'chart': chart})
+    if 'chart_type' not in request.GET:
+        form = forms.VisualiseForm()
+    else:
+        form = forms.VisualiseForm(request.GET)
+
+    chart = None
+    if form.is_valid():
+        meter = get_object_or_404(models.Meter, pk=form.cleaned_data['meter_id'])
+        chart = chart_builder.build_chart(
+            form.cleaned_data['chart_type'], meter)
+
+    return render(request, 'carbon_credentials/visualise.html', {'form': form, 'chart': chart})

@@ -1,0 +1,36 @@
+body {
+    margin: 0px;
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+}
+.sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    width: 140px;
+    background-color: #f1f1f1
+}
+.menuitem a {
+    display: block;
+    color: black;
+    padding: 16px;
+    text-decoration: none;
+}
+
+.sidebar a:hover:not(.active) {
+    background-color: #555;
+    color: white;
+}
+
+.content {
+    padding-left: 20px;
+    margin-left: 140px;
+}
+
+table {
+    border-collapse: collapse;
+}
+table, th, td {
+    border: 1px solid black;
+    padding: 5px;
+}

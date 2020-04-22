@@ -1,3 +1,4 @@
+{% extends 'carbon_credentials/index.html' %}
 {% block content %}
     {% csrf_token %}
     <h1>Readings for Meter {{ meter.id }}</h1>
