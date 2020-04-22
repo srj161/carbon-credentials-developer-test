@@ -2,8 +2,8 @@ import csv
 import codecs
 from datetime import datetime
 
-from . import models
-from .constants import UploadFileTypes
+from .. import models
+from ..constants import UploadFileTypes
 
 
 def upload(f, file_type):

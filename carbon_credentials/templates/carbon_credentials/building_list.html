@@ -5,7 +5,7 @@
             <th>Id</th>
             <th>Name</th>
         </tr>
-    {% for building in buildings %}
+    {% for building in object_list %}
         <tr>
             <td><a href="{% url 'explore_building' building.id %}">{{ building.id }}</a></td>
             <td>{{ building.name }}</td>

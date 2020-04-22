@@ -1,9 +1,13 @@
 from django.shortcuts import get_object_or_404, render
 from django.views import View
+from django.views.decorators.http import require_GET
+from django.views.generic.list import ListView
 
-from . import csv_uploader, forms, models
+from .services import csv_uploader, chart_builder
+from . import forms, models
 
 
+@require_GET
 def index(request):
     return render(request, 'index.html')
 
@@ -24,32 +28,40 @@ class UploadView(View):
         return render(request, self.template, {'form': form})
 
 
-def explore(request):
-    context = {
-        'buildings': models.Building.objects.all().order_by('id')
-    }
-    return render(request, 'explore.html', context)
+class BuildingList(ListView):
+    model = models.Building
+    context_object_name = 'buildings'
 
 
-def explore_building(request, building_id):
-    building = get_object_or_404(models.Building, pk=building_id)
-    meters = models.Meter.objects.filter(building=building).order_by('id')
-    context = {
-        'building': building,
-        'meters': meters
-    }
-    return render(request, 'explore_building.html', context)
+class MeterList(ListView):
+    model = models.Meter
+    context_object_name = 'meters'
+
+    def get_queryset(self):
+        self.building = get_object_or_404(models.Building, pk=self.kwargs['building_id'])
+        return models.Meter.objects.filter(building=self.building).order_by('id')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['building'] = self.building
+        return context
 
 
-def explore_meter(request, meter_id):
-    meter = get_object_or_404(models.Meter, pk=meter_id)
-    readings = models.MeterReadings.objects.filter(meter=meter).order_by('reading_date_time')
-    context = {
-        'meter': meter,
-        'readings': readings
-    }
-    return render(request, 'explore_meter.html', context)
+class MeterReadingsList(ListView):
+    model = models.MeterReadings
+    context_object_name = 'meter_readings'
+
+    def get_queryset(self):
+        self.meter = get_object_or_404(models.Meter, pk=self.kwargs['meter_id'])
+        return models.MeterReadings.objects.filter(meter=self.meter).order_by('id')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['meter'] = self.meter
+        return context
 
 
+@require_GET
 def visualise(request):
-    pass
+    chart = chart_builder.LineChart()
+    return render(request, 'visualise.html', {'chart': chart})

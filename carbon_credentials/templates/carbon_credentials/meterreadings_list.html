@@ -1,11 +1,12 @@
 {% block content %}
+    {% csrf_token %}
     <h1>Readings for Meter {{ meter.id }}</h1>
     <table>
         <tr>
             <th>Date</th>
             <th>Consumption ({{ meter.fuel.unit }})</th>
         </tr>
-        {% for reading in readings %}
+        {% for reading in meter_readings %}
             <tr>
                 <td>{{ reading.reading_date_time|date:'Y-m-d H:i' }}</td>
                 <td>{{ reading.consumption }}</td>
