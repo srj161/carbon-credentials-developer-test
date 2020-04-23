@@ -63,11 +63,11 @@ class MeterTimeChart(Chart):
 
 class MeterDailyBreakdowChart(Chart):
     """
-    A Bar chart to display the monthly meter usage
+    A Bar chart to display the daily meter usage
     """
     chart_type = 'bar'
     legend = Legend(display=False)
-    title = Title(display=True, text='Meter Consumption per month')
+    title = Title(display=True, text='Meter Consumption per day')
 
     def __init__(self, meter, *args, **kwargs):
         super().__init__(*args, **kwargs)
