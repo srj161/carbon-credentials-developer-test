@@ -1,4 +1,5 @@
-from django.db.models import Count
+from django.db.models import Count, Sum
+from django.db.models.functions import Trunc
 
 from jchart import Chart
 from jchart.config import Axes, Legend, rgba, ScaleLabel, Title
@@ -22,6 +23,8 @@ def build_chart(chart_type, meter):
         return MeterTimeChart(meter)
     if chart_type == ChartTypes.METER_INSTALLATION:
         return MeterInstallationChart()
+    if chart_type == ChartTypes.METER_TIME_DAY_AGG:
+        return MeterDailyBreakdowChart(meter)
 
 
 class MeterTimeChart(Chart):
@@ -53,7 +56,43 @@ class MeterTimeChart(Chart):
 
     def get_labels(self, **kwargs):
         return [
-            reading.reading_date_time.strftime("%m/%d/%Y %H:%M")
+            reading.reading_date_time.strftime("%d/%m/%Y %H:%M")
+            for reading in self.readings
+        ]
+
+
+class MeterDailyBreakdowChart(Chart):
+    """
+    A Bar chart to display the monthly meter usage
+    """
+    chart_type = 'bar'
+    legend = Legend(display=False)
+    title = Title(display=True, text='Meter Consumption per month')
+
+    def __init__(self, meter, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.readings = models.MeterReadings.objects.filter(meter=meter) \
+            .annotate(reading_day=Trunc('reading_date_time', 'day')) \
+            .values('reading_day') \
+            .annotate(consumption=Sum('consumption'))
+        self.scales = {
+            'yAxes': [
+                Axes(scaleLabel=ScaleLabel(
+                    display=True,
+                    labelString=f'{meter.fuel.name} ({meter.fuel.unit})'
+                ))
+            ]
+        }
+
+    def get_datasets(self, **kwargs):
+        return [{
+            'label': 'Meter Consumption over time',
+            'data': [reading['consumption'] for reading in self.readings]
+        }]
+
+    def get_labels(self, **kwargs):
+        return [
+            reading['reading_day'].strftime("%d/%m/%Y")
             for reading in self.readings
         ]
 

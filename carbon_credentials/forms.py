@@ -34,6 +34,7 @@ class VisualiseForm(forms.Form):
     """
     CHART_TYPES = {
         (ChartTypes.METER_TIME, 'Meter Consumption over time'),
+        (ChartTypes.METER_TIME_DAY_AGG, 'Meter Consumption aggregated per day'),
         (ChartTypes.METER_INSTALLATION, 'Meter Installation by Fuel Type')
     }
 

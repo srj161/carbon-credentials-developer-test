@@ -88,5 +88,5 @@ If I had more time there are a number of areas I would improve and implement:
 1. More testing. There are large gaps in testing but I have tried to demonstrate a range of test cases.
 2. Logging - there currently isn't any.
 3. Error handling - particularly around the CSV importing. Right now, it is very brittle and doesn't give good feedback to the user when it is unable to parse. Also, entries that invalidate foreign keys or don't pass the basic validation just get ignored. It would be good to feed this back to the user.
-4. More visualisations. I was planning to agreggate data to monthly and compare with previous years as shown the example. Also adding date ranges when generating graphs.
+4. More visualisations. I was planning to agreggate data to monthly and compare with previous years as shown the example and adding date ranges when generating graphs. Also, plotting two meters on the same graph for comparison.
 5. Import csv in chunks. The readings file is large and currently reading the whole file into memory is very resource intensive. Django provides file 'chunking' on its InMemoryUploadFile. Large files could also be processed in a background task rather than in the view.
