@@ -1,4 +1,4 @@
-# carbon-credentials-developer-test
+# meter-data-visualiser
 
 ## Interface
 The interface is controlled by a menu on the left enabling the three sections of the assignment:
@@ -9,7 +9,7 @@ The interface is controlled by a menu on the left enabling the three sections of
 
 
 ## Installation
-From the carbon-credentials-developer-test directory, run the following to build a vitualenv and install requirements.
+From the meter-data-visualiser directory, run the following to build a vitualenv and install requirements.
 ```bash
 pip install virtualenv
 python3 -m venv .venv
